@@ -1,0 +1,110 @@
+{layout name="index"}
+
+<style type="text/css">
+	
+	.panel-heading {
+		height: 50px;
+	}
+	
+	#syllabus td {
+		height: 100px;
+	}
+</style>
+
+<div class="col-md-10">	
+	<ol class="breadcrumb">
+		<li><a href="{:url('Index/index')}"><span class="glyphicon glyphicon-home"></span> 首页</a></li>
+		<li><a href="{:url('Admin/index')}">机房管理</a></li>
+		<li class="active">课程列表</li>
+
+		<button class="btn btn-primary btn-xs pull-right"><span class="glyphicon glyphicon-refresh"></span></button>
+	</ol>
+
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<p class="pull-right tots" >共有 {$total} 条数据</p>
+			<form action="" class="form-inline pull-right">
+				<div class="form-group">
+					<input type="text" name="search" value="{$_GET['search']|default=''}" class="form-control" placeholder="请输入你要搜索的内容" >
+				</div>				
+				<input type="submit" value="搜索" class="btn btn-success">
+			</form>
+		</div>
+		
+		<table class="table-bordered table table-hover" id="syllabus">
+			<tr>
+	            <th></th>
+	            <th>星期一</th>
+	            <th>星期二</th>
+	            <th>星期三</th>
+	            <th>星期四</th>
+	            <th>星期五</th>
+	            <th>星期六</th>
+	            <th>星期日</th>
+	        </tr>
+	        <tr>
+	        	<td>1-2</td>
+	        	<td>{volist name="data" id="value"} {if condition="($value.lesson == '1-2' AND $value.day == '星期一') "} {$value.message} {else/} {/if}{/volist}</td>
+	        	<td>{volist name="data" id="value"} {if condition="($value.lesson == '1-2' AND $value.day == '星期二') "} {$value.message} {else/} {/if}{/volist}</td>
+	        	<td>{volist name="data" id="value"} {if condition="($value.lesson == '1-2' AND $value.day == '星期三') "} {$value.message} {else/} {/if}{/volist}</td>
+	        	<td>{volist name="data" id="value"} {if condition="($value.lesson == '1-2' AND $value.day == '星期四') "} {$value.message} {else/} {/if}{/volist}</td>
+	        	<td>{volist name="data" id="value"} {if condition="($value.lesson == '1-2' AND $value.day == '星期五') "} {$value.message} {else/} {/if}{/volist}</td>
+	        	<td>{volist name="data" id="value"} {if condition="($value.lesson == '1-2' AND $value.day == '星期六') "} {$value.message} {else/} {/if}{/volist}</td>
+	        	<td>{volist name="data" id="value"} {if condition="($value.lesson == '1-2' AND $value.day == '星期日') "} {$value.message} {else/} {/if}{/volist}</td>
+	        </tr> 
+	        <tr>
+	        	<td>3-5</td>
+	        	<td>{volist name="data" id="value"} {if condition="($value.lesson == '3-5' AND $value.day == '星期一') "} {$value.message} {else/} {/if}{/volist}</td>
+	        	<td>{volist name="data" id="value"} {if condition="($value.lesson == '3-5' AND $value.day == '星期二') "} {$value.message} {else/} {/if}{/volist}</td>
+	        	<td>{volist name="data" id="value"} {if condition="($value.lesson == '3-5' AND $value.day == '星期三') "} {$value.message} {else/} {/if}{/volist}</td>
+	        	<td>{volist name="data" id="value"} {if condition="($value.lesson == '3-5' AND $value.day == '星期四') "} {$value.message} {else/} {/if}{/volist}</td>
+	        	<td>{volist name="data" id="value"} {if condition="($value.lesson == '3-5' AND $value.day == '星期五') "} {$value.message} {else/} {/if}{/volist}</td>
+	        	<td>{volist name="data" id="value"} {if condition="($value.lesson == '3-5' AND $value.day == '星期六') "} {$value.message} {else/} {/if}{/volist}</td>
+	        	<td>{volist name="data" id="value"} {if condition="($value.lesson == '3-5' AND $value.day == '星期日') "} {$value.message} {else/} {/if}{/volist}</td>
+	        </tr>
+	         <tr>
+	        	<td>6-7</td>
+	        	<td>{volist name="data" id="value"} {if condition="($value.lesson == '6-7' AND $value.day == '星期一') "} {$value.message} {else/} {/if}{/volist}</td>
+	        	<td>{volist name="data" id="value"} {if condition="($value.lesson == '6-7' AND $value.day == '星期二') "} {$value.message} {else/} {/if}{/volist}</td>
+	        	<td>{volist name="data" id="value"} {if condition="($value.lesson == '6-7' AND $value.day == '星期三') "} {$value.message} {else/} {/if}{/volist}</td>
+	        	<td>{volist name="data" id="value"} {if condition="($value.lesson == '6-7' AND $value.day == '星期四') "} {$value.message} {else/} {/if}{/volist}</td>
+	        	<td>{volist name="data" id="value"} {if condition="($value.lesson == '6-7' AND $value.day == '星期五') "} {$value.message} {else/} {/if}{/volist}</td>
+	        	<td>{volist name="data" id="value"} {if condition="($value.lesson == '6-7' AND $value.day == '星期六') "} {$value.message} {else/} {/if}{/volist}</td>
+	        	<td>{volist name="data" id="value"} {if condition="($value.lesson == '6-7' AND $value.day == '星期日') "} {$value.message} {else/} {/if}{/volist}</td>
+	        </tr>
+	        <tr>
+	        	<td>8-9</td>
+	        	<td>{volist name="data" id="value"} {if condition="($value.lesson == '8-9' AND $value.day == '星期一') "} {$value.message} {else/} {/if}{/volist}</td>
+	        	<td>{volist name="data" id="value"} {if condition="($value.lesson == '8-9' AND $value.day == '星期二') "} {$value.message} {else/} {/if}{/volist}</td>
+	        	<td>{volist name="data" id="value"} {if condition="($value.lesson == '8-9' AND $value.day == '星期三') "} {$value.message} {else/} {/if}{/volist}</td>
+	        	<td>{volist name="data" id="value"} {if condition="($value.lesson == '8-9' AND $value.day == '星期四') "} {$value.message} {else/} {/if}{/volist}</td>
+	        	<td>{volist name="data" id="value"} {if condition="($value.lesson == '8-9' AND $value.day == '星期五') "} {$value.message} {else/} {/if}{/volist}</td>
+	        	<td>{volist name="data" id="value"} {if condition="($value.lesson == '8-9' AND $value.day == '星期六') "} {$value.message} {else/} {/if}{/volist}</td>
+	        	<td>{volist name="data" id="value"} {if condition="($value.lesson == '8-9' AND $value.day == '星期日') "} {$value.message} {else/} {/if}{/volist}</td>
+	        </tr>
+	        <tr>
+	        	<td>10-11</td>
+	        	<td>{volist name="data" id="value"} {if condition="($value.lesson == '10-11' AND $value.day == '星期一') "} {$value.message} {else/} {/if}{/volist}</td>
+	        	<td>{volist name="data" id="value"} {if condition="($value.lesson == '10-11' AND $value.day == '星期二') "} {$value.message} {else/} {/if}{/volist}</td>
+	        	<td>{volist name="data" id="value"} {if condition="($value.lesson == '10-11' AND $value.day == '星期三') "} {$value.message} {else/} {/if}{/volist}</td>
+	        	<td>{volist name="data" id="value"} {if condition="($value.lesson == '10-11' AND $value.day == '星期四') "} {$value.message} {else/} {/if}{/volist}</td>
+	        	<td>{volist name="data" id="value"} {if condition="($value.lesson == '10-11' AND $value.day == '星期五') "} {$value.message} {else/} {/if}{/volist}</td>
+	        	<td>{volist name="data" id="value"} {if condition="($value.lesson == '10-11' AND $value.day == '星期六') "} {$value.message} {else/} {/if}{/volist}</td>
+	        	<td>{volist name="data" id="value"} {if condition="($value.lesson == '10-11' AND $value.day == '星期日') "} {$value.message} {else/} {/if}{/volist}</td>
+	        </tr>
+			<tr>
+	        	<td>12</td>
+	        	<td>{volist name="data" id="value"} {if condition="($value.lesson == '12-12' AND $value.day == '星期一') "} {$value.message} {else/} {/if}{/volist}</td>
+	        	<td>{volist name="data" id="value"} {if condition="($value.lesson == '12-12' AND $value.day == '星期二') "} {$value.message} {else/} {/if}{/volist}</td>
+	        	<td>{volist name="data" id="value"} {if condition="($value.lesson == '12-12' AND $value.day == '星期三') "} {$value.message} {else/} {/if}{/volist}</td>
+	        	<td>{volist name="data" id="value"} {if condition="($value.lesson == '12-12' AND $value.day == '星期四') "} {$value.message} {else/} {/if}{/volist}</td>
+	        	<td>{volist name="data" id="value"} {if condition="($value.lesson == '12-12' AND $value.day == '星期五') "} {$value.message} {else/} {/if}{/volist}</td>
+	        	<td>{volist name="data" id="value"} {if condition="($value.lesson == '12-12' AND $value.day == '星期六') "} {$value.message} {else/} {/if}{/volist}</td>
+	        	<td>{volist name="data" id="value"} {if condition="($value.lesson == '12-12' AND $value.day == '星期日') "} {$value.message} {else/} {/if}{/volist}</td>
+	        </tr>
+		</table>
+		
+	</div>
+</div>
+
+

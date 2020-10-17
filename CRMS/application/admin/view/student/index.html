@@ -1,0 +1,344 @@
+{layout name="index"}
+
+<style>
+	.alert {
+		padding: 10px;
+		display: none;
+	}
+	table, th {
+		text-align: center;
+	}
+</style>
+
+<div class="col-md-10">	
+	<ol class="breadcrumb">
+		<li><a href="{:url('Index/index')}"><span class="glyphicon glyphicon-home"></span> 首页</a></li>
+		<li><a href="{:url('Student/index')}">学生管理</a></li>
+		<li class="active">学生列表</li>
+
+		<button class="btn btn-primary btn-xs pull-right"><span class="glyphicon glyphicon-refresh"></span></button>
+	</ol>
+
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<button class="btn btn-danger" onclick="delAll()"><span class="glyphicon glyphicon-trash"></span> 批量删除</button>
+			<a href="#"  data-toggle="modal" data-target="#addStudent" class="btn btn-success">
+				<span class="glyphicon glyphicon-plus"></span> 添加学生
+			</a>
+			
+			<p class="pull-right tots" >共有 {$total}条数据</p>
+			<form action="" class="form-inline pull-right">
+				<div class="form-group">
+					<input type="text" name="search" value="{$_GET['search']|default=''}" class="form-control" placeholder="请输入你要搜索的内容" >
+				</div>
+				
+				<input type="submit" value="搜索" class="btn btn-success">
+			</form>
+
+
+		</div>
+		<table class="table-bordered table table-hover">
+			<th><input type="checkbox" name="" class="all" ></th>
+			<th>ID</th>
+			<th>NUMBER</th>
+			<th>NAME</th>
+			<th>身份</th>
+			<th>最后登录时间</th>
+			<th>权限</th>
+			<th>操作</th>
+
+			<!--展示后台数据-->
+			{volist name="list" id="value"}
+			<tr>
+				<td><input type="checkbox" name="" value="{$value.id}" id=""></td>
+				<td>{$value.id}</td>
+				<td>{$value.number}</td>
+				<td>{$value.name}</td>
+				<td>{$value.role}</td>
+				<td>{$value.login}</td>
+				<td>
+					{if condition="!$value.power"}
+						<span class="btn btn-info" onclick="power(this,{$value.id},2)">勤工</span>
+					{else /}
+						<span class="btn btn-success" onclick="power(this,{$value.id},4)">学生</span>
+					{/if}
+				</td>
+				<td>
+					<a href="javascript:;" onclick="edit({$value.id})" data-toggle="modal" data-target="#editStudent" class="glyphicon glyphicon-pencil"></a>
+					&nbsp;&nbsp;&nbsp;
+					<a href="javascript:;" onclick="del(this,{$value.id})" class="glyphicon glyphicon-trash"></a>
+				</td>
+			</tr>
+			{/volist}
+			
+		
+		</table>
+		<!-- 分页效果 -->
+		<div class="panel-footer">
+			<nav style="text-align:center;">
+				{$list->render()}
+			</nav>
+
+		</div>
+	</div>
+</div>
+
+
+<!-- 添加页面的摸态框 -->
+<div class="modal fade" id="addStudent">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				<h4 class="modal-title">添加学生</h4>
+			</div>
+			<div class="modal-body">
+				<form action="{:url('Student/add')}" id="addStudentForm" method="post">
+					<div class="form-group ">
+						<label for="">NUMBER</label>
+						<input type="text" name="number" class="form-control addStudent" placeholder="请输入管理员编号"  >
+						<div class="alert alert-warning"></div>
+					</div>
+					
+					<div class="form-group">
+						<label for="">密码</label>
+						<input type="password" name="password" class="form-control addStudent" placeholder="请输入管理员密码"  >
+						<div class="alert alert-warning"></div>
+					</div>
+
+					<div class="form-group">
+						<label for="">确认密码</label>
+						<input type="password" name="repassword" class="form-control addStudent" placeholder="请再次输入密码"  >
+						<div class="alert alert-warning"></div>
+					</div>
+					
+					<div class="form-group ">
+						<label for="">NAME</label>
+						<input type="text" name="name" class="form-control addStudent" placeholder="请输入管理员名字"  >
+						<div class="alert alert-warning"></div>
+					</div>
+					<div class="form-group ">
+						<label for="">身份</label>
+						<input type="text" name="role" class="form-control addStudent" placeholder="请输入管理员身份"  >
+						<div class="alert alert-warning"></div>
+					</div>
+
+					<div class="form-group">
+						<label for="">权限</label>
+						<div>
+							<label><input type="radio" name="power" value="0">0</label>
+							<label><input type="radio" name="power" value="1" checked>1</label>
+							<label><input type="radio" name="power" value="2">2</label>
+						</div>
+					</div>
+									
+					<div class="form-group pull-right">
+						<input type="submit"  value="提交" class="btn btn-success">
+						<input type="reset" value="重置" class="btn btn-danger">
+					</div>
+
+					<div style="clear:both"></div>
+				</form>
+			</div>
+			
+		</div>
+	</div>
+</div>
+
+<!-- 修改页面的摸态框 -->
+<div class="modal fade" id="editStudent">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				<h4 class="modal-title">修改</h4>
+			</div>
+			<div class="modal-body">
+				<form action="{:url('Student/updata')}" id="editStudentForm" method="post">	
+					
+				</form>
+			</div>	
+		</div>
+	</div>
+</div>
+
+
+<script>
+	// 查询对应的数据
+	function edit(id){
+		// 发送ajax请求
+		$.get("{:url('Student/edit')}",{id:id},function(data){
+			$("#editStudentForm").html(data);
+		})
+	}
+
+	//删除
+	function del(obj,id){
+		//询问框
+		layer.confirm('您确认要删除？', {
+		  	btn: ['确认','取消']
+		}, function(){
+		  	// 发送ajax请求删除
+		  	$.get("{:url('Student/del')}",{str:id},function(data){
+
+		  		// 通过返回值判断
+		  		if (data==1) {
+					layer.msg('删除成功');
+					$(obj).parent().parent().remove();
+		  			layer.close();
+
+		  		}else{
+					layer.msg('删除失败');
+		  			layer.close();
+		  		}
+		  	})
+		}, function(){
+		  	// 取消按钮相关处理
+		  	layer.close();
+		});
+	}
+	
+	// 复选框
+	$(".all[type=checkbox]").click(function(){
+
+		let checked = $(this).prop("checked");
+
+		$("[type=checkbox]").not(".all").prop("checked",checked);
+	});
+
+	// 删除所有
+	function delAll(){
+		//询问框
+		layer.confirm('您确认要删除？', {
+			btn: ['确认','取消'] 
+		}, function(){
+			// 确认按钮相关的处理
+			let checkbox = $("[type=checkbox]:checked").not(".all");
+
+			let str = "0";
+			checkbox.each(function(){
+				str+=','+$(this).val();
+			});
+
+			// 发送ajax请求删除，单个删除和批量删除的后台方法可以一样
+			$.get("{:url('Student/del')}",{str:str},function(data){
+				// 判断是否删除成功
+				if (data==1) {
+
+					layer.msg('删除成功',{time:1000},function(){
+						window.location.reload();
+					});
+				}else{
+					layer.msg('删除失败');
+					layer.close();
+
+				}
+			})
+		}, function(){
+			// 取消按钮相关处理
+			layer.close();
+		});
+	}
+	
+	$(function(){
+	
+	    // 检测用户名
+	    $(".addStudent[name=number]").blur(function(){
+	        // 获取输入框中的内容
+	        let val = $(this).val();
+	
+	        // 判断内容是否存在
+	        if (val) {
+	            // 判断用户长度
+	            if (val.length>=6 && val.length<=10) {
+	                // 检测用户是否注册
+	                $.get("{:url('Student/check_number')}",{number:val},function(data){
+	        
+	                            if (data==1) {
+	                                $(".addStudent[name=number]").next().show(100).html('用户已经注册');
+	                                $(".addStudent[name=number]").attr("isok",0);
+	        
+	                            }else{
+	                                $(".addStudent[name=number]").next().hide(100);
+	                                $(".addStudent[name=number]").attr("isok",1);
+	                            }   
+	                    });
+	            }else{
+	                $(this).next().show(100).html('用户名长度2-4位');
+	                $(this).attr("isOk",0);
+	            }
+	        }else{
+	            $(this).next().show(100).html('请输入用户名');
+	            $(this).attr("isOk",0);
+	        }
+	    });
+	
+	    // 检测密码
+	    $(".addStudent[name=password]").blur(function(){
+	        // 获取输入框中的内容
+	        let val = $(this).val();
+	        // 判断用户是否输入密码
+	        if (val) {
+	            // 检测密码长度
+	            if (val.length>=6 && val.length<=12) {
+	                $(this).next().hide(100);
+	                $(this).attr("isOk",1);
+	            }else{
+	                $(this).next().show(100).html('密码长度6-12为之间');
+	                $(this).attr("isOk",0);
+	            }
+	        }else{
+	            $(this).next().show(100).html('请输入密码');
+	            $(this).attr("isOk",0);
+	        }
+	    });
+	
+	    // 确认密码
+	    $(".addStudent[name=repassword]").blur(function(){
+	        // 获取到确认密码
+	        let repass = $(this).val();
+	        let pass = $(".addStudent[name=password]").val();
+	        // 判断密码是否一致
+	        if (repass == pass && pass) {
+	            $(this).next().hide(100);
+	            $(this).attr("isOk",1);
+	        }else{
+	            $(this).next().show(100).html('两次密码不一致');
+	            $(this).attr("isOk",0);
+	        }
+	    });
+	    
+	    //检测姓名
+	    $(".addStudent[name=name]").blur(function(){
+	    	// 获取输入框中的内容
+	        let val = $(this).val();
+	        if(val){
+	        	$(this).next().hide(100);
+	            $(this).attr("isOk",1);
+	        }else{
+	        	$(this).next().show(100).html('用户name不能为空');
+	            $(this).attr("isOk",0);
+	        }
+	    });
+	
+		//检测用户身份
+	    $(".addStudent[name=role]").blur(function(){
+	    	// 获取输入框中的内容
+	        let val = $(this).val();
+	        if(val){
+	        	$(this).next().hide(100);
+	            $(this).attr("isOk",1);
+	        }else{
+	        	$(this).next().show(100).html('用户role不能为空');
+	            $(this).attr("isOk",0);
+	        }
+	    });
+	    
+	});
+
+	
+</script>
+
+
+
+

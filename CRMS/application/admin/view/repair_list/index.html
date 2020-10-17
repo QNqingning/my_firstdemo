@@ -1,0 +1,59 @@
+{layout name="index"}
+
+
+<div class="col-md-10">	
+	<ol class="breadcrumb">
+		<li><a href="{:url('Index/index')}"><span class="glyphicon glyphicon-home"></span> 首页</a></li>
+		<li><a href="{:url('Equipment/index')}">设备管理</a></li>
+		<li class="active">设备报修</li>
+
+		<button class="btn-primary btn-xs pull-right"><span class="glyphicon glyphicon-refresh"></span></button>
+	</ol>
+
+	<div class="panel panel-default">
+		<table class="table-bordered table table-hover">
+			<tr>
+			<th>ID</th>
+			<th>地点</th>
+			<th>故障设备</th>
+			<th>故障问题</th>
+			<th>图片</th>
+			<th>报修人</th>
+			<th>申请时间</th>
+			<th>维修进度</th>
+		</tr>
+		{volist name="list" id="value"}
+		<tr>
+			<td>{$value.id}</td>
+			<td>{$value.place}</td>
+			<td>{$value.name}</td>			
+			<td>{$value.situation}</td>			
+			<td>{if condition="$value.image != ''"}
+				<img width="100px" src="PUBLIC/uploads/images/{$value.image}"/>
+				{else /}	
+				{/if}
+			</td>			
+			<td>{$value.application}</td>
+			<td>{$value.time}</td>
+			<td>
+				{if condition="session('role') eq '管理员'"}
+				<select name="result" id="result" class="form-control">
+					<option>{$value.repair_result}</option>
+					<option value="已维修" onclick="edit(this,{$value.id},'已维修')">已维修</option>
+					<option value="正在维修" onclick="edit(this,{$value.id},'正在维修')">正在维修</option>
+				</select>
+				{else /}	
+				{$value.repair_result}
+				{/if}
+			</td>
+		</tr>
+		{/volist}
+		</table>
+	</div>
+</div>
+
+<script type="text/javascript">
+	function edit(obj,id,result){
+		$.get("{:url('RepairList/edit')}",{id:id,result:result});
+	}
+</script>

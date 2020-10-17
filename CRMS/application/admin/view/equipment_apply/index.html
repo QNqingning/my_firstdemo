@@ -1,0 +1,74 @@
+{layout name="index"}
+
+<style type="text/css">
+	form {
+		text-align: center;
+	}
+	#apply_table td{
+		font-size: 16px;
+	}
+	input {
+		width: 100%;
+		height: 30px;
+		border: none;
+	}
+	textarea {
+		border: none;
+	}
+	#btn {
+		width: 60px;
+		height: 50px;
+		border-radius: 10px;
+		border: 1px solid #F2F2F2;
+		margin: 0 20px 10px;
+	}
+	#btn:hover {
+		background-color: #428bca;
+	}
+</style>
+
+<div class="col-md-10">	
+	<ol class="breadcrumb">
+		<li><a href="{:url('Index/index')}"><span class="glyphicon glyphicon-home"></span> 首页</a></li>
+		<li><a href="{:url('Equipment/index')}">设备管理</a></li>
+		<li class="active">设备申请</li>
+
+		<button class="btn-primary btn-xs pull-right"><span class="glyphicon glyphicon-refresh"></span></button>
+	</ol>
+
+	<div class="panel panel-default">
+		<form action="{:url('EquipmentApply/apply')}" method="post">
+			<h1>设备申请</h1>
+			<table class="table-bordered table table-hover" id="apply_table">
+				<tr>
+					<td>申请单位</td>
+					<td colspan="5"><input type="text" name="unit" id="unti" /></td>
+				</tr>
+				<tr>
+					<td>申请人</td>
+					<td><input type="text" name="application" id="application" /></td>
+					<td>联系电话</td>
+					<td><input type="text" name="phone" id="phone" /></td>
+					<td>申请时间</td>
+					<td><input type="text" name="time" id="time" value="{$time}"/></td>
+				</tr>
+				<tr>
+					<td>申请设备</td>
+					<td colspan="5"><textarea name="equipment" id="equipment" rows="3" cols="120"></textarea></td>
+				</tr>
+				
+				<tr>
+					<td>申请理由 </td>
+					<td colspan="5">
+						<textarea name="reason" id="reason" rows="5" cols="120"></textarea>
+					</td>
+				</tr>
+			</table>
+			<button type="submit" id="btn">提交</button>
+			<button type="reset" id="btn">重置</button>
+		</form>
+		
+	</div>
+</div>
+
+

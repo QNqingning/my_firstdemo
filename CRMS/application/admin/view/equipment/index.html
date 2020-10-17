@@ -1,0 +1,189 @@
+{layout name="index"}
+<script type="text/javascript" src="ADMIN/layer/layer.js"></script>
+<style type="text/css">
+	h3,p{
+		text-align: center;
+	}
+	form {
+		padding: 10px;
+	}
+</style>
+<div class="col-md-10">	
+	<ol class="breadcrumb">
+		<li><a href="{:url('Index/index')}"><span class="glyphicon glyphicon-home"></span> 首页</a></li>
+		<li><a href="{:url('Equipment/index')}">设备管理</a></li>
+		<li class="active">设备</li>
+
+		<button class="btn btn-primary btn-xs pull-right"><span class="glyphicon glyphicon-refresh"></span></button>
+	</ol>
+
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<button class="btn btn-danger" onclick="delAll()"><span class="glyphicon glyphicon-trash"></span> 批量删除</button>
+			<a href="{:url('Equipment/add')}"  class="btn btn-success"><span class="glyphicon glyphicon-plus"></span> 添加设备</a>				
+			
+			<p class="pull-right tots" >共有 {$total} 条数据</p>
+
+			<form action="" class="form-inline pull-right">
+				<div class="form-group">
+					<input type="text" name="search" value="{$_GET['search']|default=''}" class="form-control" placeholder="请输入你要搜索的内容" >
+				</div>				
+				<input type="submit" value="搜索" class="btn btn-success">
+			</form>
+			
+		</div>
+		<table class="table-bordered table table-hover">
+			<tr>
+				<th><input type="checkbox" name="" class="all" ></th>
+				<th>ID</th>
+				<th>资产编号</th>
+				<th>单位名称</th>
+				<th>类别</th>
+				<th>资产名称</th>
+				<th>品牌</th>
+				<th>规格型号</th>
+				<th>数量</th>
+				<th>原资产编号</th>
+				<th>原值(元)</th>
+				<th>取得日期</th>
+				<th>存放地点</th>
+				<th>使用部门</th>
+				<th>管理人（或使用人）</th>
+				<th>使用状况</th>
+				<th>操作</th>
+			</tr>
+			{volist name="list" id="value"}
+				<tr class="data">
+					<td><input type="checkbox" name="" value="{$value.id}" id=""></td>
+					<td>{$value.id}</td>
+					<td>{$value.number}</td>
+					<td>{$value.dept}</td>
+					<td>{$value.kind}</td>
+					<td>{$value.name}</td>
+					<td>{$value.brand}</td>
+					<td>{$value.model}</td>
+					<td>{$value.amount}</td>
+					<td>{$value.old_number}</td>
+					<td>{$value.cost}</td>
+					<td>{$value.gain}</td>
+					<td>{$value.place}</td>
+					<td>{$value.use_department}</td>
+					<td>{$value.administrator}</td>
+					<td>{$value.old_use}</td>
+					<td>
+						<a href="javascript:;" onclick="edit({$value.id})" data-toggle="modal" data-target="#editEquipment" class="glyphicon glyphicon-pencil"></a>
+						&nbsp;&nbsp;&nbsp;
+						<a href="javascript:;" onclick="del(this,{$value.id})" class="glyphicon glyphicon-trash"></a>
+					</td>
+				</tr>
+			{/volist}
+			
+			{if condition="$total==0"}
+				<h3>请先导入数据
+					<form action="{:url('Equipment/excel')}" method="post" enctype="multipart/form-data">
+						<span class="btn btn-info"><input type="file" name="excel" id="excel" /></span>			
+						<input type="submit" value="导入设备信息" class="btn btn-info"/>
+					</form>
+				</h3>
+				<p>
+					<img src="ADMIN/images/empty.png"/>
+				</p>
+			{/if}
+		</table>
+		
+		<!-- 分页效果 -->
+		<div class="panel-footer">
+			<nav style="text-align:center;">
+				{$list->render()}
+			</nav>
+		</div>
+	</div>
+</div>
+
+
+
+<!-- 修改页面的摸态框 -->
+<div class="modal fade" id="editEquipment">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				<h4 class="modal-title">修改设备</h4>
+			</div>
+			<div class="modal-body">
+				<form action="{:url('Equipment/update')}" id="editEquipmentForm" method="post">	
+				
+				</form>
+			</div>	
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	// 修改
+	function edit(id){
+		$.get("{:url('Equipment/edit')}",{id:id},function(data){
+			$("#editEquipmentForm").html(data);
+		})
+	}
+	
+	//删除
+	function del(obj,id){
+		//询问框
+		layer.confirm('您确认要删除？', {
+		  	btn: ['确认','取消']
+		}, function(){
+		  	// 发送ajax请求删除
+		  	$.get("{:url('Equipment/del')}",{str:id},function(data){
+		  		// 通过返回值判断
+		  		if (data==1) {
+					layer.msg('删除成功');
+					$(obj).parent().parent().remove();
+		  			layer.close();
+		  		}else{
+					layer.msg('删除失败');
+		  			layer.close();
+		  		}
+		  	})
+		}, function(){
+		  	// 取消按钮相关处理
+		  	layer.close();
+		});
+	}
+	
+	// 复选框
+	$(".all[type=checkbox]").click(function(){
+		let checked = $(this).prop("checked");
+		$("[type=checkbox]").not(".all").prop("checked",checked);
+	});
+
+	// 删除所有
+	function delAll(){
+		//询问框
+		layer.confirm('您确认要删除？', {
+			btn: ['确认','取消'] 
+		}, function(){
+			// 确认按钮相关的处理
+			let checkbox = $("[type=checkbox]:checked").not(".all");
+			let str = "0";
+			checkbox.each(function(){
+				str+=','+$(this).val();
+			});
+			// 发送ajax请求删除，单个删除和批量删除的后台方法可以一样
+			$.get("{:url('Equipment/del')}",{str:str},function(data){
+				// 判断是否删除成功
+				if (data==1) {
+					layer.msg('删除成功',{time:1000},function(){
+						window.location.reload();
+					});
+				}else{
+					layer.msg('删除失败');
+					layer.close();
+				}
+			})
+		}, function(){
+			// 取消按钮相关处理
+			layer.close();
+		});
+	}
+</script>

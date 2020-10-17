@@ -1,0 +1,241 @@
+{layout name="index"}
+
+<style>
+	.alert {
+		padding: 10px;
+		display: none;
+	}
+	table, th {
+		text-align: center;
+	}
+	
+	br {
+		display: none;
+	}
+</style>
+<script type="text/javascript" src="ADMIN/layer/layer.js"></script>
+<script type="text/javascript" src="ADMIN/js/room.js"></script>
+<script type="text/javascript">
+	var del = "{:url('Room/del')}";
+</script>
+
+<div class="col-md-10">	
+	<ol class="breadcrumb">
+		<li><a href="{:url('Index/index')}"><span class="glyphicon glyphicon-home"></span> 首页</a></li>
+		<li><a href="{:url('Room/index')}">机房管理</a></li>
+		<li class="active">机房信息列表</li>
+		<button class="btn btn-primary btn-xs pull-right"><span class="glyphicon glyphicon-refresh"></span></button>
+	</ol>
+	
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			{if condition="session('role') eq '管理员'"}
+				<button class="btn btn-danger" onclick="delAll()"><span class="glyphicon glyphicon-trash"></span> 批量删除</button>
+				<a href="#"  data-toggle="modal" data-target="#addRoom" class="btn btn-success">
+					<span class="glyphicon glyphicon-plus"></span> 添加机房
+				</a>
+			{else /}
+				<button class="btn btn-info" >机房信息列表</button>
+			{/if}
+			
+			<p class="pull-right tots" >共有 {$total} 条数据</p>
+			<form action="" class="form-inline pull-right">
+				<div class="form-group">
+					<input type="text" name="search" value="{$_GET['search']|default=''}" class="form-control" placeholder="请输入你要搜索的内容" >
+				</div>			
+				<input type="submit" value="搜索" class="btn btn-success">
+			</form>
+		</div>
+		<table class="table-bordered table table-hover">
+			<tr>
+				<th><input type="checkbox" name="" class="all" ></th>
+				<th>ID</th>
+				<th>机房编号</th>
+				<th>教学楼</th>
+				<th>机房楼层</th>
+				<th>机房名字</th>
+				<th>所属学院</th>
+				<th>容量</th>
+				<th>简介</th>
+				{if condition="session('role') eq '管理员'"}
+					<th>操作</th>
+				{/if}	
+			</tr>
+			
+			<!--展示后台数据-->
+			{volist name="list" id="value"}
+			<tr>
+				<td><input type="checkbox" name="" value="{$value.id}" id=""></td>
+				<td>{$value.id}</td><br />
+				<td>{$value.roomNum}</td>
+				<td>{$value.roomBuilding}</td>
+				<td>{$value.floor}</td>
+				<td>{$value.roomName}</td>
+				<td>{$value.academy}</td>
+				<td>{$value.capacity}</td>
+				<td>{$value.intro}</td>
+				{if condition="session('role') eq '管理员'"}
+					<td>
+						<a href="javascript:;" onclick="edit({$value.id})" data-toggle="modal" data-target="#editRoom" class="glyphicon glyphicon-pencil"></a>
+						&nbsp;&nbsp;&nbsp;
+						<a href="javascript:;" onclick="del(this,{$value.id})" class="glyphicon glyphicon-trash"></a>
+					</td>
+				{/if}
+			</tr>
+			{/volist}		
+		</table>
+		
+		<!--如果没有数据就显示一张图片-->
+		{if condition="$total eq 0"}
+			<p style="text-align:center">
+				<img src="ADMIN/images/empty.png" alt="">			
+			</p>
+		{/if}
+		<!-- 分页效果 -->
+		<div class="panel-footer">
+			<nav style="text-align:center;">
+				{$list->render()}
+			</nav>
+
+		</div>
+	</div>
+</div>
+
+
+<!-- 添加页面的拟态框 -->
+<div class="modal fade" id="addRoom">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				<h4 class="modal-title">添加机房</h4>
+			</div>
+			<div class="modal-body">
+				<form action="{:url('Room/add')}" id="addForm" method="post">
+					<div class="form-group ">
+						<label for="">机房编号</label>
+						<input type="text" name="roomNum" class="form-control addRoom" placeholder="请输入编号"  >
+						<div class="alert alert-warning"></div>
+					</div>
+					
+					<div class="form-group ">
+						<label for="">教学楼</label>
+						<input type="text" name="roomBuilding" class="form-control addRoom" placeholder="请输入所属教学楼"  >
+						<div class="alert alert-warning"></div>
+					</div>
+					
+					<div class="form-group ">
+						<label for="">机房楼层</label>
+						<input type="text" name="floor" class="form-control addRoom" placeholder="请输入机房楼层，例如404"  >
+						<div class="alert alert-warning"></div>
+					</div>
+										
+					<div class="form-group ">
+						<label for="">机房名字</label>
+						<input type="text" name="roomName" class="form-control addRoom" placeholder="请输入机房名字"  >
+						<div class="alert alert-warning"></div>
+					</div>
+					
+					<div class="form-group ">
+						<label for="">所在学院</label>
+						<input type="text" name="academy" class="form-control addRoom" placeholder="请输入所属学院"  >
+						<div class="alert alert-warning"></div>
+					</div>
+					
+					<div class="form-group ">
+						<label for="">机房容量</label>
+						<input type="text" name="capacity" class="form-control addRoom" placeholder="请输入容量"  >
+						<div class="alert alert-warning"></div>
+					</div>
+					
+					<div class="form-group pull-right">
+						<input type="submit"  value="提交" class="btn btn-success">
+						<input type="reset" value="重置" class="btn btn-danger">
+					</div>
+
+					<div style="clear:both"></div>
+				</form>
+			</div>			
+		</div>
+	</div>
+</div>
+
+<!-- 修改页面的摸态框 -->
+<div class="modal fade" id="editRoom">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				<h4 class="modal-title">修改机房</h4>
+			</div>
+			<div class="modal-body">
+				<form action="{:url('Room/update')}" method="post" id="editRoomForm">
+					
+				</form>
+			</div>			
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+	
+	// 修改
+	function edit(id){
+		$.get("{:url('Room/edit')}",{id:id},function(data){
+			$("#editRoomForm").html(data);
+		})
+	}
+	
+	
+	$(".addRoom[name=roomNum]").blur(function(){
+		// 获取输入框中的内容
+		let val = $(this).val();
+
+		// 判断内容是否存在
+		if (val) {
+				// 检测机房编号是否存在
+				$.get("{:url('Room/num')}",{roomNum:val},function(data){
+					// 根据data进行判断
+					if (data==1) {
+						$(".addRoom[name=roomNum]").next().show(100).html('该机房已经存在');
+						$(".addRoom[name=roomNum]").attr("isok",0);
+
+					}else{
+
+						$(".addRoom[name=roomNum]").next().hide(100);
+						$(".addRoom[name=roomNum]").attr("isok",1);
+
+					}
+				})
+		}else{
+			$(this).next().show(100).html('请输入机房编号');
+			$(this).attr("isOk",0);
+		}	
+	});
+	
+	//删除
+	function del(obj,id){
+		//询问框
+		layer.confirm('您确认要删除？', {
+		  btn: ['确认','取消']
+		}, function(){
+		  	// 发送ajax请求删除
+		  	$.get("{:url('Room/del')}",{str:id},function(data){
+
+		  		// 通过返回值判断
+		  		if (data==1) {
+					layer.msg('删除成功');
+					$(obj).parent().parent().remove();
+		  			layer.close();
+
+		  		}else{
+					layer.msg('删除失败');
+		  			layer.close();
+		  		}
+		  	})
+		}, function(){
+		  	// 取消按钮相关处理
+		  	layer.close();
+		});
+	}
+</script>

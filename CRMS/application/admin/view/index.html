@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>机房管理系统</title>
+	<link rel="stylesheet" href="ADMIN/css/bootstrap.min.css">
+	<link rel="stylesheet" href="ADMIN/css/public.css">
+	<script src="ADMIN/js/jquery.min.js"></script>
+	<script src="ADMIN/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="ADMIN/layer/layer.js"></script>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+		}
+		.breadcrumb {
+			background-color: #C7DEFC !important;
+			opacity: 0.8;
+		}
+		.panel-heading {
+/*			background-color: #fff !important;*/
+		}
+		.panel-heading{
+			height: 50px;
+		}
+		.body{
+			margin-top:90px;
+		}
+		.header {
+			line-height: 60px;
+		}	
+		.logo_title {
+			font-size: 26px;
+			color: #000;
+			display: inline-block;
+		}
+		.header select {
+			width: 100px;
+			height: 40px;
+			border: 1px solid #fff;
+			border-radius: 5px;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<!-- 导航条 -->
+		<nav class=" navbar-fixed-top col-md-12" role="navigation">
+			<div class="container-fluid">
+			<!-- 导航logo -->
+				<div class="navbar-header">
+					
+					<a class="navbar-brand"  href="#"><img src="ADMIN/images/logo_school.png" alt="logo"/>  博客后台管理系统</a>
+				</div>
+
+			<!-- 出logo以外 -->
+				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+					<ul class="nav navbar-nav navbar-right">
+						<li><a href="#">{:session('name')}</a></li>
+						<li><a href="{:url("Login/logout")}">退出</a></li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+
+		
+		<!--<div class="col-md-12 header">
+			<a href="#" class="pull-left">
+				<img src="ADMIN/images/logo_school.png" alt="logo"/>
+				<h1 class="logo_title">机房管理系统</h1>
+			</a>
+			<div class="pull-right">
+				<span>欢迎你：</span>
+				<select>
+					<a href="#"><option value="">{:session('name')}</option></a>
+					<a href="{:url('Login/quit')}}"><option value="">退出</option></a>				
+				</select>
+			</div>
+		</div>-->
+		<!-- 内容区域 -->
+		<div class="row body">
+			<!-- 菜单 -->
+			<div class="col-md-2">
+
+				<!-- 用户管理-->
+				<!--只有管理员才可以查看所有用户信息-->
+				{if condition="session('role') eq '管理员'"}
+					<div class="panel panel-primary">
+						<div class="panel-heading">
+							<h2 class="panel-title"><span class="glyphicon glyphicon-user"></span> 用户管理</h2>
+						</div>
+						<ul class="list-group">
+							<li class="list-group-item"><a href="{:url('Admin/index')}">管理员列表</a></li>
+							<li class="list-group-item"><a href="{:url('Teacher/index')}">教师列表</a></li>
+							<li class="list-group-item"><a href="{:url('Student/index')}">学生列表</a></li>				 	
+						</ul>
+					</div>
+				{/if}	
+				
+				<!--非管理员只能查看个人信息-->
+					<div class="panel panel-primary">
+						<div class="panel-heading">
+							<h2 class="panel-title"><span class="glyphicon glyphicon-user"></span> 个人信息管理</h2>
+						</div>
+						<ul class="list-group">
+							{if condition="session('role') eq '管理员'"}
+								<li class="list-group-item"><a href="{:url('Admin/ad')}">管理员个人信息</a></li>	
+							{elseif  condition="session('role') eq '教师'"/}
+								<li class="list-group-item"><a href="{:url('Teacher/teacher')}">教师个人信息</a></li>	
+							{else /}	
+								<li class="list-group-item"><a href="{:url('Student/student')}">学生个人信息</a></li>	
+							{/if}
+						</ul>
+					</div>				
+				
+				
+				<!--机房管理-->
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<h2 class="panel-title"><span class="glyphicon glyphicon-tasks"></span> 机房管理</h2>
+					</div>
+					<ul class="list-group">
+						<li class="list-group-item"><a href="{:url('Room/index')}">机房信息列表</a></li> 	
+						<li class="list-group-item"><a href="{:url('Course/index')}">排课列表</a></li>
+						<li class="list-group-item"><a href="{:url('EmptyRoom/index')}">空机房列表</a></li>
+						<li class="list-group-item"><a href="{:url('RoomApply/index')}">空机房申请</a></li>
+						<li class="list-group-item"><a href="{:url('RoomApplyList/index')}">空机房申请记录</a></li>
+					</ul>
+				</div>
+				
+				<!-- 设备管理 -->
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<h2 class="panel-title"><span class="glyphicon glyphicon-tasks"></span>设备管理</h2>
+					</div>
+					<ul class="list-group">		 	
+						<li class="list-group-item"><a href="{:url('Equipment/index')}">设备列表</a></li> 						 	
+					    <li class="list-group-item"><a href="{:url('EquipmentApply/index')}">设备申请</a></li> 	
+					    <li class="list-group-item"><a href="{:url('EquipmentApplyList/index')}">设备申请记录</a></li> 	
+					    <li class="list-group-item"><a href="{:url('Repair/index')}">设备报修</a></li> 	
+					    <li class="list-group-item"><a href="{:url('RepairList/index')}">设备报修记录</a></li> 	
+					</ul>
+				</div>				
+				
+				<!-- 通知管理 -->
+				<div class="panel panel-primary">
+					<div class="panel-heading">
+						<h2 class="panel-title"><span class="glyphicon glyphicon-file"></span> 公告管理</h2>
+					</div>
+					<ul class="list-group">
+						<li class="list-group-item"><a href="{:url('Notice/index')}">发布公告</a></li>						 
+						<li class="list-group-item"><a href="{:url('NoticeList/index')}">公告记录列表</a></li>						 
+					</ul>
+				</div>
+				
+			</div>
+
+			{__CONTENT__}
+		</div>
+	</div>
+</body>
+<script>
+	
+	// 菜单切换
+	$(".panel-title").click(function(){
+		$(".list-group").hide();
+		$(this).parent().next().toggle(500);
+	});
+	
+	
+</script>
+</html>

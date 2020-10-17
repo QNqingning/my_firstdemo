@@ -1,0 +1,105 @@
+<div class="form-group">
+	<label for="">申请信息：<strong>{$data.day}&nbsp;&nbsp;&nbsp;&nbsp;{$data.lesson}&nbsp;&nbsp;&nbsp;&nbsp;{$data.number}</strong></label>
+	<input type="hidden" name="number" class="form-control applyModal" value="{$data.number}" readonly />
+	<input type="hidden" name="day" class="form-control applyModal" value="{$data.day}" readonly />
+	<input type="hidden" name="lesson" class="form-control applyModal" value="{$data.lesson}" readonly />
+</div>
+
+<div class="form-group">						
+	<label for="">申请单位</label>
+	<input type="text" name="unit" class="form-control applyModal" />
+	<div class="alert alert-warning"></div>
+</div>
+
+<div class="form-group">						
+	<label for="">申请人</label>
+	<input type="text" name="application" class="form-control applyModal" value="{:session('name')}" />
+	<div class="alert alert-warning"></div>
+</div>						
+
+<div class="form-group">						
+	<label for="">联系电话</label>
+	<input type="text" name="phone" class="form-control applyModal" />
+	<div class="alert alert-warning"></div>
+</div>
+
+<div class="form-group">						
+	<label for="">申请时间</label>
+	<input type="text" name="time" class="form-control applyModal" value="{$time}" />
+	<div class="alert alert-warning"></div>
+</div>
+
+<div class="form-group">						
+	<label for="">申请理由</label> 
+	<textarea name="reason" class="form-control applyModal" rows="5"></textarea>
+	<div class="alert alert-warning"></div>
+</div>
+		
+<div class="form-group pull-right">
+	<input type="submit" onclick="apply()"  value="提交" class="btn btn-success">
+	<input type="reset" value="重置" class="btn btn-danger">
+</div>
+
+<div style="clear:both"></div>
+
+<script type="text/javascript">
+	$(".applyModal[name=unit]").blur(function(){
+		// 获取输入框中的内容
+		let val = $(this).val();
+		if(val){
+			$(this).next().hide(100);
+			$(this).attr("isOk",1);
+		}else{
+			$(this).next().show(100).html('请输入申请单位');
+			$(this).attr("isOk",0);
+		}
+	});
+	
+	$(".applyModal[name=application]").blur(function(){
+		// 获取输入框中的内容
+		let val = $(this).val();
+		if(val){
+			$(this).next().hide(100);
+			$(this).attr("isOk",1);
+		}else{
+			$(this).next().show(100).html('请输入申请人');
+			$(this).attr("isOk",0);
+		}
+	});
+	
+	$(".applyModal[name=phone]").blur(function(){
+		// 获取输入框中的内容
+		let val = $(this).val();
+		if(val){
+			$(this).next().hide(100);
+			$(this).attr("isOk",1);
+		}else{
+			$(this).next().show(100).html('请输入联系电话');
+			$(this).attr("isOk",0);
+		}
+	});
+	
+	$(".applyModal[name=time]").blur(function(){
+		// 获取输入框中的内容
+		let val = $(this).val();
+		if(val){
+			$(this).next().hide(100);
+			$(this).attr("isOk",1);
+		}else{
+			$(this).next().show(100).html('请输入申请时间');
+			$(this).attr("isOk",0);
+		}
+	});
+	
+	$(".applyModal[name=reason]").blur(function(){
+		// 获取输入框中的内容
+		let val = $(this).val();
+		if(val){
+			$(this).next().hide(100);
+			$(this).attr("isOk",1);
+		}else{
+			$(this).next().show(100).html('请输入申请理由');
+			$(this).attr("isOk",0);
+		}
+	});
+</script>

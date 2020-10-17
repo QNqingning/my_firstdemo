@@ -1,0 +1,19 @@
+<link rel="stylesheet" type="text/css" href="ADMIN/css/message.css"/>
+
+{volist name="message" id="value"}
+	<h1>个人信息</h1><p>PS：帶<span id="start">*</span>的信息不能修改</p>
+	<label><input type="text" name="id" id="id" value="{$value.id}" readonly  hidden/></label>		
+	<label><span id="span">number:</span> <input type="text" name="number" id="number" value="{$value.number}" readonly /><span id="start">*</span></label>
+	<label><span id="span">姓名:</span> <input type="text" name="name" id="name" value="{$value.name}" readonly /><span id="start">*</span></label>
+	<label><span id="span">性别:</span> <input type="text" name="sex" id="sex" value="{$value.sex}" readonly /><span id="start">*</span></label>
+	<label><span id="span">身份:</span> <input type="text" name="role" id="role" value="{$value.role}" readonly /><span id="start">*</span></label>
+	<label><span id="span">邮箱:</span> <input type="text" name="email" id="email" value="{$value.email}" /></label>
+	<label><span id="span">手机号:</span> <input type="text" name="phone" id="phone" value="{$value.phone}" /></label>
+	<label><span id="span">权限:</span> <input type="text" name="power" id="power" value="{$value.power}" readonly /><span id="start">*</span></label>
+	<label><span id="span">注册时间:</span> <input type="text" name="create" id="create" value="{$value.create}" readonly /><span id="start">*</span></label>
+	<label><span id="span">最后登录时间:</span> <input type="text" name="login" id="login" value="{$value.login}" readonly /><span id="start">*</span></label>
+	
+	
+	<label><input type="submit" class="submit" value="修改"/></label>		
+	
+{/volist}

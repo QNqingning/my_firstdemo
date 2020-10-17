@@ -1,0 +1,86 @@
+{layout name="index"}
+<style type="text/css">
+	#equipment input {
+		width: 100%;
+		height: 30px;
+		border: none;
+		border-radius: 5px;
+	}
+	form {
+		text-align: center;
+		font-size: 16px;
+	}
+	h1 {
+		text-align: center;
+		margin: 50px;
+	}
+</style>
+<div class="col-md-10">
+	<ol class="breadcrumb">
+		<li><a href="{:url('Index/index')}"><span class="glyphicon glyphicon-home"></span> 首页</a></li>
+		<li><a href="{:url('Equipment/index')}">设备管理</a></li>
+		<li class="active">设备</li>
+		<button class="btn btn-primary btn-xs pull-right"><span class="glyphicon glyphicon-refresh"></span></button>
+	</ol>
+	
+	<h1>添加设备</h1>
+	<h3>批量添加</h3>
+	<form action="{:url('Equipment/excel')}" method="post" enctype="multipart/form-data">
+		<span class="btn btn-success"><input type="file" name="excel" id="excel" /></span>			
+		<input type="submit" value="导入设备信息" class="btn btn-success"/>
+	</form>
+					
+	<h3>单条数据添加</h3>
+	<form action="{:url('Equipment/addEquipment')}" method="post"  role="form">	
+		<table id="equipment" class="table-bordered table table-hover">
+			<tr>
+				<td>单位名称</td>
+				<td><input type="text" name="dept" value="计信学院"></td>
+				<td>设备类别</td>
+				<td><input type="text" name="kind" value="设备类"></td>
+			</tr>
+			<tr>
+				<td>原资产编号</td>
+				<td><input type="text" name="old_number" placeholder="若无则可留空"></td>				
+				<td>资产编号</td>
+				<td><input type="text" name="number"></td>
+			</tr>
+			<tr>
+				<td>资产名称</td>
+				<td><input type="text" name="name"></td>
+				<td>品牌</td>
+				<td><input type="text" name="brand"></td>
+			</tr>
+			<tr>
+				<td>规格型号</td>
+				<td><input type="text" name="model"></td>
+				<td>数量</td>
+				<td><input type="text" name="amount" value="1"></td>
+			</tr>
+			<tr>
+				<td>原值(元)</td>
+				<td><input type="text" name="cost"></td>
+				<td>取得日期</td>
+				<td><input type="text" name="gain" placeholder="如：{$time}"></td>				
+			</tr>
+			<tr>
+				<td>存放地点</td>
+				<td><input type="text" name="place" placeholder="逸夫楼408"></td>
+				<td>使用部门</td>
+				<td><input type="text" name="use_department" value="计信学院"></td>
+			</tr>
+			<tr>
+				<td>现管理人</td>
+				<td><input type="text" name="administrator"></td>
+				<td>使用状况</td>
+				<td><input type="text" name="old_use" value="在用"></td>
+			</tr>
+		</table>
+
+			<input type="submit"  value="提交" class="btn btn-success">
+			<input type="reset" value="重置" class="btn btn-danger">
+			
+	</form>
+    
+</div>
+
