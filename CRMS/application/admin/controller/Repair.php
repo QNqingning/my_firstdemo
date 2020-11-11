@@ -20,14 +20,21 @@ class Repair extends Lock{
 		}
 		$data['repair_result']= '待维修';
 		if(db("repair")->insert($data)){		
-			$data[] = ['user_email'=>'508401036@qq.com','content'=>'有设备出现故障，请及时维修'];//user_email：收邮件人邮箱号，content：发送的信息
-	    	$this->SendMail($data);
+//			$data[] = ['user_email'=>'508401036@qq.com','content'=>'有设备出现故障，请及时维修'];//user_email：收邮件人邮箱号，content：发送的信息
+	    	$this->redirect("Repair/SendMail");
 		}
 	}
 	
+	//申请成功
+	public function succeed(){
+		$user = session("name");
+		$data = db("repair")->where("application",$user)->order("id DESC")->select();
+		$this->assign("data",$data);
+		return view();
+	}
 	
 		//发送邮件
-	function SendMail($data=[]){
+	public function SendMail(){
         Vendor('phpmailer.phpmailer'); //引入扩展类文件
         $mail = new \phpmailer\PHPMailer(); //实例化
         
@@ -47,17 +54,15 @@ class Repair extends Lock{
         $mail->From = '508401036@qq.com';  //发件人地址（也就是你的邮箱）
         $mail->FromName = 'jxxy';  //发件人姓名
 
-        if($data && is_array($data)){
-            foreach ($data as $k=>$v){
-                $mail->AddAddress($v['user_email'], "亲"); //添加收件人（地址，昵称）
-                $mail->IsHTML(true); //支持html格式内容
-                $mail->Body = $v['content']; //邮件主体内容
-
-                //发送成功就删除
-                if ($mail->Send()) {
-                   	$this->redirect("RoomApplyList/index");
-                }
-            }
+        $mail->AddAddress('508401036@qq.com', "亲"); //添加收件人（地址，昵称）
+        $mail->IsHTML(true); //支持html格式内容
+        $mail->Body = '有设备出现异常，请及时查看'; //邮件主体内容
+        
+        //发送成功就删除
+        if ($mail->Send()) {
+       		$this->redirect("Repair/succeed");
+        }else{
+       		$this->redirect("Repair/index");
         }
     }
 }

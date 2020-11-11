@@ -1,6 +1,6 @@
 {layout name="index"}
 
-<div class="col-md-10">	
+<div class="col-md-10 body_container">	
 	<ol class="breadcrumb">
 		<li><a href="{:url('Index/index')}"><span class="glyphicon glyphicon-home"></span> 首页</a></li>
 		<li><a href="{:url('Equipment/index')}">设备管理</a></li>
@@ -10,7 +10,7 @@
 	</ol>
 	
 	<div class="panel panel-default">
-		<div class="panel-heading">
+		<div class="panel-heading" id="operate">
 			<p class="pull-right tots" >共有 {$total}  条数据</p>
 			<form action="" class="form-inline pull-right" id="searchBox">
 			<div class="form-group">

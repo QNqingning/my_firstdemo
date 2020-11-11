@@ -1,16 +1,7 @@
 {layout name="index"}
 
-<style>
-	.alert {
-		padding: 10px;
-		display: none;
-	}
-	table, th {
-		text-align: center;
-	}
-</style>
 
-<div class="col-md-10">	
+<div class="col-md-10 body_container">	
 	<ol class="breadcrumb">
 		<li><a href="{:url('Index/index')}"><span class="glyphicon glyphicon-home"></span> 首页</a></li>
 		<li><a href="{:url('Student/index')}">学生管理</a></li>
@@ -20,7 +11,7 @@
 	</ol>
 
 	<div class="panel panel-default">
-		<div class="panel-heading">
+		<div class="panel-heading" id="operate">
 			<button class="btn btn-danger" onclick="delAll()"><span class="glyphicon glyphicon-trash"></span> 批量删除</button>
 			<a href="#"  data-toggle="modal" data-target="#addStudent" class="btn btn-success">
 				<span class="glyphicon glyphicon-plus"></span> 添加学生

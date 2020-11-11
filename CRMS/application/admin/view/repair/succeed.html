@@ -1,0 +1,36 @@
+{layout name="index"}
+<style type="text/css">
+	h1 {
+		text-align: center;
+		padding: 15px;
+		color: #1E9FFF;
+	}
+	
+	tr:nth-child(2){
+		background: #80aaff;
+	}
+</style>
+<div class="body_container">	
+	<h1>设备报修记录</h1>
+	<table class="table-bordered table table-hover">
+		<tr>
+			<th>序号</th>
+			<th>报修时间</th>
+			<th>报修地点</th>
+			<th>故障</th>
+			<th>维修进度</th>
+			<th>维修时间</th>
+		</tr>
+		{volist name="data" key="k" id="value"}
+		<tr>
+			<td>{$k}</td>
+			<td>{$value.time}</td>
+			<td>{$value.place}</td>
+			<td>{$value.situation}</td>
+			<td>{$value.repair_result}</td>
+			<td>{$value.repair_time}</td>
+		</tr>
+		{/volist}
+	
+	</table>
+</div>

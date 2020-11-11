@@ -15,7 +15,6 @@ class EquipmentApply extends Lock{
 		if($data){
 			if(!db("equipment_apply")->where('application',$data['application'])->where('time',$data['time'])->where('equipment',$data['equipment'])->find()){
 				$arr[] = [
-					'unit' => $data['unit'],
 					'application' => $data['application'],
 					'phone' => $data['phone'],
 					'time' => $data['time'],
@@ -30,6 +29,13 @@ class EquipmentApply extends Lock{
 		}
 	}
 	
+	//申请成功
+	public function succeed(){
+		$user = session("name");
+		$data = db("equipment_apply")->where("application",$user)->order("id DESC")->select();
+		$this->assign("data",$data);
+		return view();
+	}
 	
 	//发送邮件
 	public function SendMail(){
@@ -58,6 +64,8 @@ class EquipmentApply extends Lock{
 
         //发送成功就删除
         if ($mail->Send()) {
+       		$this->redirect("EquipmentApply/succeed");
+        }else{
        		$this->redirect("EquipmentApply/index");
         }
 	}

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>机房管理系统</title>
+		<link rel="stylesheet" href="ADMIN/css/bootstrap.min.css">
+		<script src="ADMIN/js/jquery.min.js"></script>
+		<script src="ADMIN/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="ADMIN/layer/layer.js"></script>
+		
+		<style type="text/css">
+			*{
+				margin: 0;
+				padding: 0;
+				list-style: none;
+				text-decoration: none;
+			}
+			body {
+				background-color: #f2f2f2;
+			}
+			/*头部logo*/
+			.header {
+				width: 100%;
+				height: 130px;
+			}
+			.header_logo {
+				width: 100%;
+				height: 100px;
+				line-height: 100px;
+				background-color: #80aaff;				
+			}
+			.logo_img {
+				width: 20%;
+				height: 60px;
+			}
+			.header_logo h1 {
+				display: inline-block;
+				color: #fff ;
+			}
+			.header_info {
+				width: 100%;
+				height: 30px;
+				line-height: 30px;
+				background-color: #e5eeff;
+			}
+			.header_info ul {
+				margin: 0;
+				padding: 0;
+			}
+			.header_info li {
+				margin: 0 20px;
+				float: left;
+			}
+			.header_info .right {
+				float: right;
+			}
+			
+			/*内容区域*/
+			.content {
+				margin: 0 auto;
+				width: 100%;
+				height: auto;
+			}
+			/*左侧滑动导航栏*/
+			.menus_area {
+				width: 20%;
+				height: auto;
+				overflow: visible !important;
+				float: left;
+				text-align: center;
+				border-right: 1px solid #999;
+			}
+			
+			.menus_area h2 {
+				color: blue;
+				padding: 15px 0;
+			}
+			
+			.menus_area dl {
+				border-top: 1px solid #999;
+				border-radius: 5px;
+				margin: 0;
+				padding: 0;
+			}
+			
+			.menus_area dl:last-child {
+				border-bottom: 1px solid #999;	
+			}
+			
+			.menus_area dt {
+				line-height: 50px;
+				cursor: pointer;
+			}
+			
+			.menus_area dd {
+				display: none;
+				background: #fff;
+				margin: 0;
+			}
+			.menus_area dd:last-child {
+				padding-bottom: 10px;
+			}
+			.menus_area dd a {
+				line-height: 40px;
+			}
+						
+			dt.on {
+				background-color: #E5EEFF;
+			}
+			
+			.body_container {
+				width: 80%;
+				float: right;
+				min-height: 600px;
+				background: #fff;
+				padding-left: 2%;
+			}
+			
+		</style>
+	</head>
+	<body>
+		<div class="body">
+			<!--头部-->
+			<div class="header">
+				<div class="header_logo">
+					<a href="#">
+						<img src="ADMIN/images/logo_school.png" alt="logo" class="logo_img"/>
+						<h1 class="logo_title">机房管理系统</h1>
+					</a>
+				</div>
+				<div class="header_info">
+					<ul>
+						<li>您好!&nbsp;&nbsp;&nbsp;&nbsp;{:session('name')}</li>
+						<li>今天是&nbsp;&nbsp;<span id="now"></span</li>
+						<li class="right"><a href="{:url('Login/quit')}">退出</a></li>
+					</ul>
+				</div>
+			</div>
+			
+			<!--内容区域-->
+			<div class="content">
+				<div class="menus_area" id="menus_area">
+					<h2>菜单管理</h2>
+	                <dl class="system_log">
+	                    <dt><span class="glyphicon glyphicon-search"></span>用户管理</dt>
+	                    <dd><a href="{:url('Admin/index')}">管理员列表</a></dd>
+	                    <dd><a href="{:url('Teacher/index')}">教师列表</a></dd>
+	                    <dd><a href="{:url('Student/index')}">学生列表</a></dd>
+	                </dl>
+	
+	                <dl class="custom">
+	                    <dt><span class="glyphicon glyphicon-list"></span>个人信息管理</dt>
+	                    {if condition="session('role') eq '管理员'"}
+	                    <dd><a href="{:url('Admin/ad')}">管理员个人信息</a></dd>
+	                    {elseif  condition="session('role') eq '教师'"/}
+	                    <dd><a href="{:url('Teacher/teacher')}">教师个人信息</a></dd>
+	                    {else /}
+	                    <dd><a href="{:url('Student/student')}">学生个人信息</a></dd>
+	                    {/if}
+	                </dl>
+	
+	                <dl class="channel">
+	                    <dt><span class="glyphicon glyphicon-list"></span>机房管理</dt>
+	                    <dd><a href="{:url('Room/index')}">机房信息列表</a></dd>
+	                    <dd><a href="{:url('Course/index')}">排课列表</a></dd>
+	                    <dd><a href="{:url('EmptyRoom/index')}">空机房列表</a></dd>
+	                    <dd><a href="{:url('RoomApply/index')}">空机房申请</a></dd>
+	                    <dd><a href="{:url('RoomApplyList/index')}">空机房申请记录</a></dd>
+	                </dl>
+	
+	                <dl class="app">
+	                    <dt><span class="glyphicon glyphicon-list"></span>设备管理</dt>
+	                    <dd><a href="{:url('Equipment/index')}">设备列表</a></dd>
+	                    <dd><a href="{:url('EquipmentApply/index')}">设备申请</a></dd>
+	                    <dd><a href="{:url('EquipmentApplyList/index')}">设备申请记录</a></dd>
+	                    <dd><a href="{:url('Repair/index')}">设备报修</a></dd>
+	                    <dd><a href="{:url('RepairList/index')}">设备报修记录</a></dd>
+	                </dl>
+	
+	                <dl class="cloud">
+	                    <dt><span class="glyphicon glyphicon-list"></span>公告管理</dt>
+	                    <dd><a href="{:url('Notice/index')}">发布公告</a></dd>
+	                    <dd><a href="{:url('NoticeList/index')}">公告记录列表</a></dd>
+	                </dl>
+		
+	            </div>
+	            <div class="body_container">
+	            	{__CONTENT__}
+	            </div>
+			</div>
+			
+			<!--尾部-->
+			<!--<div class="footer">
+				<p>河池学院计算机与信息工程学院</p>
+			</div>-->
+		</div>	
+	</body>
+	
+	<script type="text/javascript">
+		$(function() {
+            $("#menus_area").find("dt").click(function() { //一级菜单点击
+                if (!$(this).hasClass("on")) { //当前一级菜单不选中状态才切换
+                    $("#menus_area").find("dt").removeClass("on");//所有的一级菜单去除选中样式
+                    $(this).addClass("on");//当前一级菜单选中样式
+                    $('dd').slideUp();//所有二级菜单隐藏
+                    $(this).nextAll('dd').slideToggle();//当前所有二级菜单切换
+                }
+            });
+        })
+		
+		
+		var now = new Date();
+		$('#now').html(now.toLocaleDateString()); //获取当前日期
+	</script>
+
+</html>
+
+	

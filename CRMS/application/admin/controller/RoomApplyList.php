@@ -16,14 +16,13 @@ class RoomApplyList extends Lock{
 	
 	public function edit(){
 		$get = input('get.');
-		if(db("room_apply")->where('id',$get['id'])->setField('check_result',$get['result'])){
-			$data[] = ['user_email'=>'qnqn1234@163.com','content'=>$get['result']];//user_email：收邮件人邮箱号，content：发送的信息
-	    	$this->SendMail($data);
+		if(db("room_apply")->where('id',$get['id'])->update(['check_result'=>$get['result'],'check_time'=>date('Y-m-d')])){
+			$this->redirect("RoomApplyList/SendMail");
 		}
 	}
 	
 	//发送邮件
-	function SendMail($data=[]){
+	public function SendMail(){
         Vendor('phpmailer.phpmailer'); //引入扩展类文件
         $mail = new \phpmailer\PHPMailer(); //实例化
         
@@ -43,18 +42,20 @@ class RoomApplyList extends Lock{
         $mail->From = '508401036@qq.com';  //发件人地址（也就是你的邮箱）
         $mail->FromName = 'jxxy';  //发件人姓名
 
-        if($data && is_array($data)){
-            foreach ($data as $k=>$v){
-                $mail->AddAddress($v['user_email'], "亲"); //添加收件人（地址，昵称）
-                $mail->IsHTML(true); //支持html格式内容
-                $mail->Body = '您的机房申请'. $v['content']; //邮件主体内容
-
-                //发送成功就删除
-                if ($mail->Send()) {
-                   	$this->redirect("RoomApplyList/index");
-                }
+       	$user_email = session("email");
+//		$user_email = 'qnqn1234@163.com';
+       	
+       	if($user_email){
+       		$mail->AddAddress($user_email, "亲");
+       		$mail->IsHTML(true); //支持html格式内容
+            $mail->Body = '您的机房申请已审核'; //邮件主体内容
+            
+            //发送成功就删除
+            if ($mail->Send()) {
+               	$this->redirect("RoomApplyList/index");
             }
-        }
+       	}
+       
     }
 }
 ?>

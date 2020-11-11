@@ -6,7 +6,11 @@ use Think\Db;
 
 	class Index extends Lock {
 		public function index(){
-//			echo "admin模块下的Index控制器的index方法";
+			
+			$data = db("notice")->where('top',1)->order("id DESC")->find();
+//			var_dump($data);
+			
+			$this->assign("data",$data);
 			return view();
 		}
 		

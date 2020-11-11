@@ -1,0 +1,42 @@
+{layout name="index"}
+<style type="text/css">
+	h1 {
+		text-align: center;
+		padding: 15px;
+		color: #1E9FFF;
+	}
+	
+	tr:nth-child(2){
+		background: #80aaff;
+	}
+</style>
+<div class="body_container">	
+	<h1>我的机房申请记录</h1>
+	<table class="table-bordered table table-hover">
+		<tr>
+			<th>序号</th>
+			<th>申请时间</th>
+			<th>机房</th>
+			<th>星期</th>
+			<th>节次</th>
+			<th>申请理由</th>
+			<th>使用时间</th>
+			<th>审核进度</th>
+			<th>审核时间</th>
+		</tr>
+		{volist name="data" key="k" id="value"}
+		<tr>
+			<td>{$k}</td>
+			<td>{$value.time}</td>
+			<td>{$value.use_number}</td>
+			<td>{$value.use_day}</td>
+			<td>{$value.reason}</td>
+			<td>{$value.use_lesson}</td>
+			<td>{$value.use_time}</td>
+			<td>{$value.check_result}</td>
+			<td>{$value.check_time}</td>
+		</tr>
+		{/volist}
+	
+	</table>
+</div>

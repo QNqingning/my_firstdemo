@@ -1,12 +1,6 @@
 {layout name="index"}
 
-<style type="text/css">
-	.panel-heading {
-		height: 50px;
-	}
-</style>
-
-<div class="col-md-10">	
+<div class="body_container">	
 	<ol class="breadcrumb">
 		<li><a href="{:url('Index/index')}"><span class="glyphicon glyphicon-home"></span> 首页</a></li>
 		<li><a href="{:url('Room/index')}">机房管理</a></li>
@@ -16,30 +10,8 @@
 	
 	<div class="panel panel-default">
 		<div class="panel-heading">
-			<p class="pull-right tots" >共有 {$total} 条数据</p>
 			<form action="" class="form-inline pull-right" id="searchBox">
-				<div class="form-group">
-					<select name="day" class="form-control">
-						<option value="星期">星期</option>
-						<option value="星期一">星期一</option>
-						<option value="星期二">星期二</option>
-						<option value="星期三">星期三</option>
-						<option value="星期四">星期四</option>
-						<option value="星期五">星期五</option>
-						<option value="星期六">星期六</option>
-						<option value="星期日">星期日</option>
-					</select>
-				</div>
-				<div class="form-group">
-					<select name="lesson" class="form-control">
-						<option value="节次">节次</option>
-						<option value="1-2">1-2</option>
-						<option value="3-5">3-5</option>
-						<option value="6-7">6-7</option>
-						<option value="8-9">8-9</option>
-						<option value="12-12">12</option>
-					</select>
-				</div>
+				
 				<div class="form-group">
 					<input type="text" name="search" value="{$_GET['search']|default=''}" class="form-control" placeholder="请输入你要搜索的内容" >
 				</div>				
@@ -53,7 +25,6 @@
 				<th>机房名称</th>
 				<th>星期</th>
 				<th>节次</th>
-				<th>当前状态</th>
 			</tr>
 			{volist name="list" id="value"}
 			<tr>
@@ -61,17 +32,15 @@
 				<td>{$value.roomName}</td>
 				<td>{$value.day}</td>
 				<td>{$value.lesson}</td>
-				<td></td>
 			</tr>
 			{/volist}
 		</table>
 	
-		<!-- 分页效果 -->
-		<div class="panel-footer">
-			<nav style="text-align:center;">
-				{$list->render()}
-			</nav>
+	</div>
+		<!-- 分页 -->
+		<div class="paging pull-right">
+			<span class="pagination total pull-right">共{$total}条记录</span>
+			{$list->render()}		
 		</div>
 	
-	</div>
 </div>

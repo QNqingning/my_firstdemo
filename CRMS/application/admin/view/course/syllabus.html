@@ -1,17 +1,12 @@
 {layout name="index"}
 
 <style type="text/css">
-	
-	.panel-heading {
-		height: 50px;
-	}
-	
 	#syllabus td {
 		height: 100px;
 	}
 </style>
 
-<div class="col-md-10">	
+<div class="body_container">	
 	<ol class="breadcrumb">
 		<li><a href="{:url('Index/index')}"><span class="glyphicon glyphicon-home"></span> 首页</a></li>
 		<li><a href="{:url('Admin/index')}">机房管理</a></li>
@@ -21,7 +16,7 @@
 	</ol>
 
 	<div class="panel panel-default">
-		<div class="panel-heading">
+		<div class="panel-heading" id="operate">
 			<p class="pull-right tots" >共有 {$total} 条数据</p>
 			<form action="" class="form-inline pull-right">
 				<div class="form-group">

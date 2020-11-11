@@ -27,7 +27,7 @@
 	}
 </style>
 
-<div class="col-md-10">	
+<div class="col-md-10 body_container">	
 	<ol class="breadcrumb">
 		<li><a href="{:url('Index/index')}"><span class="glyphicon glyphicon-home"></span> 首页</a></li>
 		<li><a href="{:url('Equipment/index')}">设备管理</a></li>
@@ -41,12 +41,8 @@
 			<h1>设备申请</h1>
 			<table class="table-bordered table table-hover" id="apply_table">
 				<tr>
-					<td>申请单位</td>
-					<td colspan="5"><input type="text" name="unit" id="unti" /></td>
-				</tr>
-				<tr>
 					<td>申请人</td>
-					<td><input type="text" name="application" id="application" /></td>
+					<td><input type="text" name="application" id="application"  value="{:session('name')}"/></td>
 					<td>联系电话</td>
 					<td><input type="text" name="phone" id="phone" /></td>
 					<td>申请时间</td>

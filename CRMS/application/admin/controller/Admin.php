@@ -32,41 +32,19 @@ use Think\Db;
 		
 		public function change(){
 			//接收修改的数据
-			$data = input("post.");
+			$post = input("post.");
+			$data = array_filter($post);
 //			var_dump($data);
 //			exit;
-			
-			//判断要修改的数据是否存在
-			if($data['email']){
-				if($data['phone']){
-					$arr = [
-						'id' => $data['id'],
-						'email' => $data['email'],
-						'phone' => $data['phone'],
-					];
-				}else{
-					$arr = [
-						'id' => $data['id'],
-						'email' => $data['email'],
-					];
-				}
-			}else{
-				if($data['phone']){
-					$arr = [
-						'id' => $data['id'],
-						'phone' => $data['phone'],
-					];
-				}else{
-						$this->error("请输入要修改的邮箱或者手机号");
-				}
-			}
-			
+						
 			// 在数据库中修改数据
-			if (db("admin")->update($arr)){
+			if(db("admin")->where('id',$data['id'])->setField($data)){
 				$this->redirect('Admin/ad');
 			}else{
-				$this->error("修改失败");
+				$this->error('修改失败');
 			}
+			
+			
 		}
 		
 		// 检测用户number是否存在

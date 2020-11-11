@@ -1,17 +1,150 @@
 {layout name='index'}
-<div class="col-md-10">	
+<div class="col-md-10 body_container">	
 	<ol class="breadcrumb">
 		<li><a href="{:url('Index/index')}"><span class="glyphicon glyphicon-home"></span> 首页</a></li>
 		<li><a href="{:url('Room/index')}">公告管理</a></li>
-		<li class="active">公告列表</li>
+		<li class="active">公告记录列表</li>
 		<button class="btn btn-primary btn-xs pull-right"><span class="glyphicon glyphicon-refresh"></span></button>
 	</ol>
 	
-	<div class="panel panel-default">
-   		<h1>通知公告</h1>
-   		<ul>
-   			<li><a href="#"></a><span></span></li>
-   			
-   		</ul>
+	<div class="panel panel-default">	
+   		<div class="panel-heading">
+   			<button class="btn btn-danger" onclick="delAll()"><span class="glyphicon glyphicon-trash"></span> 批量删除</button>
+			<form action="" class="form-inline pull-right">
+				<div class="form-group">
+					<input type="text" name="search" value="{$_GET['search']|default=''}" class="form-control" placeholder="请输入你要搜索的内容" >
+				</div>				
+				<input type="submit" value="搜索" class="btn btn-success">
+			</form>
+
+
+		</div>
+   		<table class="table-bordered table table-hover" >
+   			<tr>
+   				<th><input type="checkbox" name="" class="all"></th>
+   				<th>ID</th>
+   				<th>标题</th>
+   				<th>内容</th>
+   				<th>是否置顶</th>
+   				<th>操作</th>
+   			</tr>
+   			{volist name="data" id="value"}
+	   			<tr>
+	   				<td><input type="checkbox" name="" value="{$value.id}" id=""></td>
+	   				<td>{$value.id}</td>
+	   				<td>{$value.title}</td>
+	   				<td>{$value.content}</td>
+	   				<td>
+	 					{in name=":session('power')" value="0,1,2"}
+	 						{if condition="$value.top"}
+	 						<span class="btn btn-info isTop" onclick="isTop(this,{$value.id},1)">1</span>
+	 						{else /}
+	 						<span class="btn btn-info isTop" onclick="isTop(this,{$value.id},0)">0</span>
+	 						{/if}
+	 					{/in}
+	   				</td>
+	   				<td>
+						<a href="javascript:;" onclick="del(this,{$value.id})" class="glyphicon glyphicon-trash"></a>
+	   				</td>   				
+	   			</tr>   			
+	   		{/volist}
+   		</table>
 	</div>
 </div>
+
+<script type="text/javascript">
+	// 修改
+	function isTop(obj,id,top){
+		$.ajax({
+			type:"get",
+			url:"{:url('NoticeList/isTop')}",
+			data : {
+				id: id,
+				top : top
+			},
+			success : function(data){
+				if(data == 1){
+					layer.msg("是否置顶修改成功",{icon: 1,time:1000},function(){
+						if(top == 1){
+							$(obj).parent().html('<span class="btn btn-info isTop" onclick="isTop(this,'+id+',0)">0</span>')
+						}else{
+							$(obj).parent().html('<span class="btn btn-info isTop" onclick="isTop(this,'+id+',1)">1</span>')
+						}
+					});
+
+				}else{
+					layer.msg("是否置顶修改失败",{icon:2});
+				}
+			}
+		});
+	}
+	
+	
+	//删除
+	function del(obj,id){
+		//询问框
+		layer.confirm('您确认要删除？', {
+		  	btn: ['确认','取消']
+		}, function(){
+		  	// 发送ajax请求删除
+		  	$.get("{:url('NoticeList/del')}",{str:id},function(data){
+
+		  		// 通过返回值判断
+		  		if (data==1) {
+					layer.msg('删除成功');
+					$(obj).parent().parent().remove();
+		  			layer.close();
+
+		  		}else{
+					layer.msg('删除失败');
+		  			layer.close();
+		  		}
+		  	})
+		}, function(){
+		  	// 取消按钮相关处理
+		  	layer.close();
+		});
+	}
+	
+	// 复选框
+	$(".all[type=checkbox]").click(function(){
+
+		let checked = $(this).prop("checked");
+
+		$("[type=checkbox]").not(".all").prop("checked",checked);
+	});
+
+	// 删除所有
+	function delAll(){
+		//询问框
+		layer.confirm('您确认要删除？', {
+			btn: ['确认','取消'] 
+		}, function(){
+			// 确认按钮相关的处理
+			let checkbox = $("[type=checkbox]:checked").not(".all");
+
+			let str = "0";
+			checkbox.each(function(){
+				str+=','+$(this).val();
+			});
+
+			// 发送ajax请求删除，单个删除和批量删除的后台方法可以一样
+			$.get("{:url('NoticeList/del')}",{str:str},function(data){
+				// 判断是否删除成功
+				if (data==1) {
+
+					layer.msg('删除成功',{time:1000},function(){
+						window.location.reload();
+					});
+				}else{
+					layer.msg('删除失败');
+					layer.close();
+
+				}
+			})
+		}, function(){
+			// 取消按钮相关处理
+			layer.close();
+		});
+	}
+</script>

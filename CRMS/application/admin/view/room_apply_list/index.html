@@ -1,6 +1,6 @@
 {layout name="index"}
 
-<div class="col-md-10">	
+<div class="col-md-10 body_container">	
 	<ol class="breadcrumb">
 		<li><a href="{:url('Index/index')}"><span class="glyphicon glyphicon-home"></span> 首页</a></li>
 		<li><a href="{:url('Room/index')}">机房管理</a></li>
@@ -9,7 +9,7 @@
 	</ol>
 	
 	<div class="panel panel-default">
-		<div class="panel-heading">
+		<div class="panel-heading" id="operate">
 			<p class="pull-right tots" >共有 {$total}条数据</p>
 			<form action="" class="form-inline pull-right">
 				<div class="form-group">
@@ -26,7 +26,6 @@
 				<th>使用时间</th>
 				<th>使用节次</th>
 				<th>使用机房</th>
-				<th>申请单位</th>
 				<th>申请人</th>
 				<th>联系方式</th>
 				<th>申请时间</th>
@@ -39,7 +38,6 @@
 				<td>{$value.use_day}</td>
 				<td>{$value.use_lesson}</td>
 				<td>{$value.use_number}</td>
-				<td>{$value.unit}</td>
 				<td>{$value.application}</td>
 				<td>{$value.phone}</td>
 				<td>{$value.time}</td>

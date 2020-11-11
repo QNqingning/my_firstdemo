@@ -1,22 +1,16 @@
 {layout name="index"}
 
 <style>
-	th, p, h3 {
-		text-align: center;
-	}
-
 	#course {
 		display: block;
-		height: 800px;
+		max-height: 500px;
 		overflow: scroll;
 	}
-	.panel-heading {
-		height: 50px;
-	}
+	
 </style>
 <script type="text/javascript" src="ADMIN/layer/layer.js"></script>
 
-<div class="col-md-10">	
+<div class="body_container">	
 	<ol class="breadcrumb">
 		<li><a href="{:url('Index/index')}"><span class="glyphicon glyphicon-home"></span> 首页</a></li>
 		<li><a href="{:url('Course/index')}">机房管理</a></li>
@@ -26,9 +20,8 @@
 	</ol>
 
 	<div class="panel panel-default">
-		<div class="panel-heading">
+		<div class="panel-heading" id="operate">
 
-			<p class="pull-right tots" >共有 {$total} 条数据</p>
 			<form action="{:url('Course/syllabus')}" class="form-inline pull-right" id="searchBox">
 				<div class="form-group">
 					<input type="text" name="search" value="{$_GET['search']|default=''}" class="form-control" placeholder="请输入你要搜索的内容" >

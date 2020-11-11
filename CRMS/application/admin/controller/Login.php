@@ -49,6 +49,7 @@ class Login extends Controller{
 			 				session('number',$data['number']);
 			 				session('id',$data['id']);
 			 				session('name',$data['name']);
+			 				session('email',$data['email']);
 			 				session('role',$data['role']);
 			 				session('power',$data['power']);
 			 				

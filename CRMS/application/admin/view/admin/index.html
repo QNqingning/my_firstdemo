@@ -1,12 +1,6 @@
 {layout name="index"}
 
-<script type="text/javascript" src="ADMIN/layer/layer.js"></script>
-<script type="text/javascript" src="ADMIN/js/admin.js"></script>
-<script>
-    var con = "{:url('Admin/check_number')}";
-</script>
-
-<div class="col-md-10">	
+<div class="body_container">	
 	<ol class="breadcrumb">
 		<li><a href="{:url('Index/index')}"><span class="glyphicon glyphicon-home"></span> 首页</a></li>
 		<li><a href="{:url('Admin/index')}">管理员管理</a></li>
@@ -243,6 +237,99 @@
 			$("#editAdminForm").html(data);
 		})
 	}
+		
+	    // 检测用户名
+	    $(".addAdmin[name=number]").blur(function(){
+	        // 获取输入框中的内容
+	        let val = $(this).val();
+	
+	        // 判断内容是否存在
+	        if (val) {
+	            // 判断用户名长度
+	            if (val.length>=6 && val.length<=10) {
+	                // 检测用户名是否注册
+	                $.get(con,{number:val},function(data){
+	        
+	                            if (data==1) {
+	                                $(".addAdmin[name=number]").next().show(100).html('用户名已经注册');
+	                                $(".addAdmin[name=number]").attr("isok",0);
+	        
+	                            }else{
+	                                $(".addAdmin[name=number]").next().hide(100);
+	                                $(".addAdmin[name=number]").attr("isok",1);
+	                            }   
+	                    });
+	            }else{
+	                $(this).next().show(100).html('用户名长度2-12位');
+	                $(this).attr("isOk",0);
+	            }
+	        }else{
+	            $(this).next().show(100).html('请输入用户名');
+	            $(this).attr("isOk",0);
+	        }
+	    });
+	
+	    // 检测密码
+	    $(".addAdmin[name=password]").blur(function(){
+	        // 获取输入框中的内容
+	        let val = $(this).val();
+	        // 判断用户是否输入密码
+	        if (val) {
+	            // 检测密码长度
+	            if (val.length>=6 && val.length<=12) {
+	                $(this).next().hide(100);
+	                $(this).attr("isOk",1);
+	            }else{
+	                $(this).next().show(100).html('密码长度6-12为之间');
+	                $(this).attr("isOk",0);
+	            }
+	        }else{
+	            $(this).next().show(100).html('请输入密码');
+	            $(this).attr("isOk",0);
+	        }
+	    });
+	
+	    // 确认密码
+	    $(".addAdmin[name=repassword]").blur(function(){
+	        // 获取到确认密码
+	        let repass = $(this).val();
+	        let pass = $(".addAdmin[name=password]").val();
+	        // 判断密码是否一致
+	        if (repass == pass && pass) {
+	            $(this).next().hide(100);
+	            $(this).attr("isOk",1);
+	        }else{
+	            $(this).next().show(100).html('两次密码不一致');
+	            $(this).attr("isOk",0);
+	        }
+	    });
+	    
+	    //检测姓名
+	    $(".addAdmin[name=name]").blur(function(){
+	    	// 获取输入框中的内容
+	        let val = $(this).val();
+	        if(val){
+	        	$(this).next().hide(100);
+	            $(this).attr("isOk",1);
+	        }else{
+	        	$(this).next().show(100).html('用户name不能为空');
+	            $(this).attr("isOk",0);
+	        }
+	    });
+	
+		//检测用户身份
+	    $(".addAdmin[name=role]").blur(function(){
+	    	// 获取输入框中的内容
+	        let val = $(this).val();
+	        if(val){
+	        	$(this).next().hide(100);
+	            $(this).attr("isOk",1);
+	        }else{
+	        	$(this).next().show(100).html('用户role不能为空');
+	            $(this).attr("isOk",0);
+	        }
+	    });
+
 	
 </script>
 

@@ -1,0 +1,36 @@
+{layout name="index"}
+<style type="text/css">
+	h1 {
+		text-align: center;
+		padding: 15px;
+		color: #1E9FFF;
+	}
+	
+	tr:nth-child(2){
+		background: #80aaff;
+	}
+</style>
+<div class="body_container">	
+	<h1>我的设备申请记录</h1>
+	<table class="table-bordered table table-hover">
+		<tr>
+			<th>序号</th>
+			<th>申请时间</th>
+			<th>申请设备</th>
+			<th>申请理由</th>
+			<th>审核进度</th>
+			<th>审核时间</th>
+		</tr>
+		{volist name="data" key="k" id="value"}
+		<tr>
+			<td>{$k}</td>
+			<td>{$value.time}</td>
+			<td>{$value.equipment}</td>
+			<td>{$value.reason}</td>
+			<td>{$value.check_result}</td>
+			<td>{$value.check_time}</td>
+		</tr>
+		{/volist}
+	
+	</table>
+</div>

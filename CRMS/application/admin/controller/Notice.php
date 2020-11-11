@@ -8,5 +8,16 @@ class Notice extends Lock{
 		
 		return view();
 	}
+	public function add(){
+		$data = input("post.");
+		
+		$data['time'] = date("Y-m-d");
+		
+		if(db("notice")->insert($data)){
+			$this->redirect("Index/index");
+		}else{
+			$this->redirect("Notice/index");
+		}
+	}
 }
 ?>

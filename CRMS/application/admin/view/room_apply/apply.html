@@ -3,12 +3,7 @@
 	<input type="hidden" name="number" class="form-control applyModal" value="{$data.number}" readonly />
 	<input type="hidden" name="day" class="form-control applyModal" value="{$data.day}" readonly />
 	<input type="hidden" name="lesson" class="form-control applyModal" value="{$data.lesson}" readonly />
-</div>
-
-<div class="form-group">						
-	<label for="">申请单位</label>
-	<input type="text" name="unit" class="form-control applyModal" />
-	<div class="alert alert-warning"></div>
+	<input type="hidden" name="time" class="form-control applyModal" value="{$time}" />
 </div>
 
 <div class="form-group">						
@@ -24,8 +19,8 @@
 </div>
 
 <div class="form-group">						
-	<label for="">申请时间</label>
-	<input type="text" name="time" class="form-control applyModal" value="{$time}" />
+	<label for="">使用时间</label> 
+	<input type="text" name="useTime" class="form-control applyModal"  placeholder="例如：{$time}"/>
 	<div class="alert alert-warning"></div>
 </div>
 
@@ -43,17 +38,6 @@
 <div style="clear:both"></div>
 
 <script type="text/javascript">
-	$(".applyModal[name=unit]").blur(function(){
-		// 获取输入框中的内容
-		let val = $(this).val();
-		if(val){
-			$(this).next().hide(100);
-			$(this).attr("isOk",1);
-		}else{
-			$(this).next().show(100).html('请输入申请单位');
-			$(this).attr("isOk",0);
-		}
-	});
 	
 	$(".applyModal[name=application]").blur(function(){
 		// 获取输入框中的内容
@@ -79,14 +63,30 @@
 		}
 	});
 	
-	$(".applyModal[name=time]").blur(function(){
+	
+	$(".applyModal[name=useTime]").blur(function(){
 		// 获取输入框中的内容
-		let val = $(this).val();
-		if(val){
-			$(this).next().hide(100);
-			$(this).attr("isOk",1);
+		var val = new Array();
+		let useTime = $(this).val();
+		val.push(useTime);
+		if(useTime){
+			$("input[type=hidden]").each(function(){
+			    val.push($(this).val());//添加至数组
+			});
+			$.get("{:url('roomApply/isApply')}",{val:val},function(data){
+				if(data == 1){
+					$(".applyModal[name=useTime]").next().show(100).html('该机房的时间段已有人申请，请更换其他机房或时间段');
+					$(".applyModal[name=useTime]").attr("isOk",0);
+				}else{
+					$(".applyModal[name=useTime]").next().hide(100);
+					$(".applyModal[name=useTime]").attr("isOk",1);				
+				}
+				
+				
+			});
+			
 		}else{
-			$(this).next().show(100).html('请输入申请时间');
+			$(this).next().show(100).html('请输入使用时间');
 			$(this).attr("isOk",0);
 		}
 	});
